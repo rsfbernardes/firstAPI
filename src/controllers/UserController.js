@@ -38,8 +38,6 @@ module.exports = {
     request.on('end', () => {
       body = JSON.parse(body);
 
-      const { id } = request.params;
-
       const lastUserId = users[users.length - 1].id;
 
       const newUser = {
