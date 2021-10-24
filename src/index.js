@@ -5,11 +5,13 @@ const { URL } = require('url');
 const server = http.createServer((request, response) => {
   const parsedUrl = new URL(`http://localhost:3000${request.url}`);
 
-  console.log(`Request method: ${request.method} | Endpoint: ${request.url}`);
+  console.log(`Request method: ${request.method} | Endpoint: ${parsedUrl.pathname}`);
   console.log(parsedUrl);
 
+  let { pathname } = parsedUrl;
+
   const route = routes.find((routeObj) => (
-    routeObj.method === request.method && routeObj.endpoint === request.url
+    routeObj.method === request.method && routeObj.endpoint === pathname
   ));
 
   if (route) {
@@ -18,7 +20,7 @@ const server = http.createServer((request, response) => {
   }
   else {
     response.writeHead(400, { 'Content-Type': 'text/html' });
-    response.end(`Cannot ${request.method} ${request.url}`);
+    response.end(`Cannot ${request.method} ${parsedUrl.pathname}`);
   }
 });
 
