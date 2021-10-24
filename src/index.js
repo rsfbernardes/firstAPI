@@ -21,22 +21,18 @@ const server = http.createServer((request, response) => {
   ));
 
   console.log(`Request method: ${request.method} | Endpoint: ${parsedUrl.pathname}`);
-  console.log(parsedUrl);
-  console.log(splitEndpoint);
-  console.log(pathname);
 
   if (route) {
     request.query = Object.fromEntries(parsedUrl.searchParams);
     request.params = { id };
-    const { body } = request;
 
     response.send = (statusCode, body) => {
       response.writeHead(statusCode, { 'Content-Type': 'application/json' });
       response.end(JSON.stringify(body));
     }
 
-    if (['PUT', 'PUT', 'PATCH'].includes(request.method)) {
-      bodyParser(request, () => route.handler(request, response))
+    if (['POST', 'PUT', 'PATCH'].includes(request.method)) {
+      bodyParser(request, () => route.handler(request, response));
     }
     else {
       route.handler(request, response);
