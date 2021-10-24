@@ -70,6 +70,18 @@ module.exports = {
   },
 
   deleteUser(request, response) {
+    let { id } = request.params;
 
+    id = Number(id);
+
+    const userExists = users.find((user) => user.id === id);
+
+    if( !userExists) {
+      return response.send(400, { error: 'User not found' });
+    }
+
+    users = users.filter((user) => user.id !== id);
+
+    response.send(200, users);
   }
 };
